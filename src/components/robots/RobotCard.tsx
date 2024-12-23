@@ -33,6 +33,7 @@ export default function RobotCard({ robot, onDelete, onUpdateStatus, onClick }: 
     <div className="w-full">
       <Card 
         onClick={onClick}
+        data-testid="robot-card"
         className="cursor-pointer bg-gray-800/50 hover:bg-gray-800/70 border-gray-700"
       >
         <CardHeader>

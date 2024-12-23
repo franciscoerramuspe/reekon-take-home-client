@@ -1,18 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# REEKON Robot Management Platform
+
+A web-based platform for managing REEKON Robot Assistants, allowing customers to remotely command and monitor their robots.
+
+## Features
+
+- **Account Management**
+  - User authentication
+  - Organization-based access control
+  - Subscription management (Basic/Pro/Enterprise)
+
+- **Dashboard**
+  - Interactive map showing real-time robot locations
+  - Robot status monitoring
+  - Quick actions for robot management
+
+- **Robot Management**
+  - Create and delete robots
+  - Monitor battery levels and status
+  - View detailed robot information
+  - Real-time location tracking
+
+- **Job Management**
+  - Create and assign jobs to robots
+  - Track job progress and status
+  - View job history and analytics
+
+- **Error Monitoring**
+  - Real-time error tracking
+  - Error analytics and trends
+  - Detailed error logs with filtering
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 with React
+- **UI Components**: Shadcn/ui
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **Maps**: Leaflet
+- **State Management**: React Hooks
 
 ## Getting Started
 
-First, run the development server:
+1. **Prerequisites**
+   - Node.js 18.17 or later
+   - npm or yarn package manager
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Installation**
+   ```bash
+   # Clone the frontend repository
+   git clone https://github.com/your-username/reekon-robots.git
+
+   # Install dependencies
+   npm install
+   ```
+
+3. **Environment Setup**
+   - Contact [Your Contact Info] to obtain the required `.env` files
+   - These files contain sensitive configuration and API keys
+
+4. **Local Development with Backend**
+   To run both frontend and backend locally:
+   
+   a. Set up the backend:
+   ```bash
+   # Clone the backend repository
+   git clone https://github.com/reekon-backend/reekon-server.git
+
+   # Install dependencies
+   cd reekon-server
+   npm install
+   ```
+
+   b. Request the required environment files:
+   - Frontend: `.env.local`
+   - Backend: `.env`
+   
+   Contact [Your Contact Info] to obtain these files as they contain sensitive information including:
+   - API keys
+   - Database credentials
+   - Authentication secrets
+   - Map service tokens
+
+   c. Start both servers:
+   ```bash
+   # Terminal 1 - Frontend
+   cd reekon-robots
+   npm run dev
+
+   # Terminal 2 - Backend
+   cd reekon-server
+   npm run dev
+   ```
+
+   The application will be available at:
+   - Frontend: `http://localhost:3000`
+   - Backend: `http://localhost:3001`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
