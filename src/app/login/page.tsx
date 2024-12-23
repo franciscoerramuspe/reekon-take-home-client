@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Logo } from "@/components/logo"
 import { AuthForm, AuthInput, AuthButton } from "@/components/auth-form"
 
+
 export default function Login() {
   const router = useRouter()
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ export default function Login() {
     setIsLoading(true)
     setError('')
     try {
-      const response = await fetch(`${process.env.NEXT_DEPLOY_URL}/auth/login`, {
+      const response = await fetch(`https://take-home-reekon.vercel.app/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
