@@ -1,4 +1,4 @@
-const API_URL = 'https://take-home-reekon.vercel.app/api';
+const API_URL = 'http://localhost:3000/api';
 
 export interface Organization {
   id: string;
@@ -63,6 +63,29 @@ class OrganizationService {
       return responseData.organization;
     } catch (error) {
       console.error('Error creating organization:', error);
+      throw error;
+    }
+  }
+
+  async updateOrganization(
+    id: string,
+    data: { name?: string; max_robots?: number }
+  ): Promise<Organization> {
+    try {
+      const response = await fetch(`${API_URL}/organizations/${id}`, {
+        method: 'PATCH',
+        headers: this.getHeaders(),
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update organization');
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error updating organization:', error);
       throw error;
     }
   }

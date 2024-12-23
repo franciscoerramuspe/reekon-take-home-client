@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Logo } from "@/components/logo"
 import { AuthForm, AuthInput, AuthButton } from "@/components/auth-form"
+import { useAuth } from '@/contexts/AuthContext'
 
 
 export default function Login() {
   const router = useRouter()
+  const { setUser } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -35,6 +37,7 @@ export default function Login() {
 
       const data = await response.json()
       localStorage.setItem('token', data.token)
+      setUser(data.user)
       router.push('/dashboard')
     } catch (err) {
       console.error(err)
