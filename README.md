@@ -36,7 +36,7 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
 - **UI Components**: Shadcn/ui
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts
-- **Maps**: Leaflet
+- **Maps**: Mapbox GL JS
 - **State Management**: React Hooks
 
 ## Getting Started
@@ -44,6 +44,7 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
 1. **Prerequisites**
    - Node.js 18.17 or later
    - npm or yarn package manager
+   - Mapbox account for maps functionality
 
 2. **Installation**
    ```bash
@@ -56,7 +57,10 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
 
 3. **Environment Setup**
    - Contact [Your Contact Info] to obtain the required `.env` files
-   - These files contain sensitive configuration and API keys
+   - These files contain sensitive configuration and API keys including:
+     - Mapbox access tokens
+     - API endpoints
+     - Authentication secrets
 
 4. **Local Development with Backend**
    To run both frontend and backend locally:
@@ -64,10 +68,10 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
    a. Set up the backend:
    ```bash
    # Clone the backend repository
-   git clone https://github.com/reekon-backend/reekon-server.git
+   git clone https://github.com/franciscoerramuspe/take-home-reekon.git
 
-   # Install dependencies
-   cd reekon-server
+   # Install backend dependencies
+   cd take-home-reekon/server
    npm install
    ```
 
@@ -76,10 +80,9 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
    - Backend: `.env`
    
    Contact [Your Contact Info] to obtain these files as they contain sensitive information including:
-   - API keys
    - Database credentials
+   - Mapbox tokens
    - Authentication secrets
-   - Map service tokens
 
    c. Start both servers:
    ```bash
@@ -88,7 +91,7 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
    npm run dev
 
    # Terminal 2 - Backend
-   cd reekon-server
+   cd take-home-reekon/server
    npm run dev
    ```
 
