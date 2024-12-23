@@ -41,17 +41,60 @@ A web-based platform for managing REEKON Robot Assistants, allowing customers to
 
 ## Getting Started
 
-1. **Installation**
+1. **Prerequisites**
+   - Node.js 18.17 or later
+   - npm or yarn package manager
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Installation**
+   ```bash
+   # Clone the frontend repository
+   git clone https://github.com/your-username/reekon-robots.git
+
+   # Install dependencies
+   npm install
+   ```
+
+3. **Environment Setup**
+   - Contact [Your Contact Info] to obtain the required `.env` files
+   - These files contain sensitive configuration and API keys
+
+4. **Local Development with Backend**
+   To run both frontend and backend locally:
+   
+   a. Set up the backend:
+   ```bash
+   # Clone the backend repository
+   git clone https://github.com/reekon-backend/reekon-server.git
+
+   # Install dependencies
+   cd reekon-server
+   npm install
+   ```
+
+   b. Request the required environment files:
+   - Frontend: `.env.local`
+   - Backend: `.env`
+   
+   Contact [Your Contact Info] to obtain these files as they contain sensitive information including:
+   - API keys
+   - Database credentials
+   - Authentication secrets
+   - Map service tokens
+
+   c. Start both servers:
+   ```bash
+   # Terminal 1 - Frontend
+   cd reekon-robots
+   npm run dev
+
+   # Terminal 2 - Backend
+   cd reekon-server
+   npm run dev
+   ```
+
+   The application will be available at:
+   - Frontend: `http://localhost:3000`
+   - Backend: `http://localhost:3001`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
