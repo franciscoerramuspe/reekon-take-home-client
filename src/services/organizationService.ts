@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://take-home-reekon.vercel.app/api';
 
 export interface Organization {
   id: string;
@@ -44,18 +44,15 @@ class OrganizationService {
     maxRobots?: number;
   }): Promise<Organization> {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/organizations/register`,
-        {
-          method: 'POST',
-          headers: this.getHeaders(),
-          body: JSON.stringify({
-            name: data.name,
-            subscription: data.subscription || 'basic',
-            maxRobots: data.maxRobots || 5,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/organizations/register`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify({
+          name: data.name,
+          subscription: data.subscription || 'basic',
+          maxRobots: data.maxRobots || 5,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
