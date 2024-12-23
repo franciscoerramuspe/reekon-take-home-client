@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { BotIcon, BatteryIcon } from 'lucide-react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-// Add custom CSS to override Mapbox popup styles
 import './RobotMap.css'
 
 interface Robot {
@@ -26,6 +25,11 @@ interface RobotMapProps {
 export default function RobotMap({ robots }: RobotMapProps) {
   const [popupInfo, setPopupInfo] = useState<Robot | null>(null)
 
+  if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
+    console.error('Mapbox token is missing');
+    return null;
+  }
+
   return (
     <Map
       initialViewState={{
@@ -36,6 +40,7 @@ export default function RobotMap({ robots }: RobotMapProps) {
       style={{ width: '100%', height: 500 }}
       mapStyle="mapbox://styles/mapbox/dark-v11"
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+      reuseMaps
     >
       {robots.map((robot) => (
         <Marker

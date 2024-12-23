@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useCustomToast } from "@/hooks/useCustomToast";
 import { organizationService } from '@/services/organizationService';
 import { Organization } from '@/types/organization';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function OrganizationPage() {
   const [organization, setOrganization] = useState<Organization | null>(null);
@@ -14,19 +15,26 @@ export default function OrganizationPage() {
   const [editing, setEditing] = useState(false);
   const [editedValues, setEditedValues] = useState({
     name: '',
-    max_robots: 0
+    max_robots: 0,
+    subscription: 'basic' as 'basic' | 'pro' | 'enterprise'
   });
+  const [editedKeys, setEditedKeys] = useState<string[]>([]);
+  const [editedFeatures, setEditedFeatures] = useState<string[]>([]);
   const toast = useCustomToast();
 
   useEffect(() => {
     const fetchOrganization = async () => {
       try {
         const orgs = await organizationService.listOrganizations();
-        setOrganization(orgs[0]);
+        const org = orgs[0];
+        setOrganization(org);
         setEditedValues({
-          name: orgs[0].name,
-          max_robots: orgs[0].max_robots
+          name: org.name,
+          max_robots: org.max_robots,
+          subscription: org.subscription
         });
+        setEditedKeys(org.settings.api_keys);
+        setEditedFeatures(org.settings.allowed_features);
       } catch (error) {
         console.error('Failed to fetch organization:', error);
         toast.error('Failed to load organization details');
@@ -41,8 +49,6 @@ export default function OrganizationPage() {
   const handleSave = async () => {
     try {
       if (!organization) return;
-      
-      // Validate max_robots
       if (editedValues.max_robots > 20) {
         toast.error('Maximum robots cannot exceed 20');
         return;
@@ -50,7 +56,13 @@ export default function OrganizationPage() {
 
       const updatedOrg = await organizationService.updateOrganization(organization.id, {
         name: editedValues.name,
-        max_robots: editedValues.max_robots
+        max_robots: editedValues.max_robots,
+        subscription: editedValues.subscription,
+        settings: {
+          ...organization.settings,
+          api_keys: editedKeys,
+          allowed_features: editedFeatures
+        }
       });
 
       setOrganization(updatedOrg);
@@ -92,8 +104,8 @@ export default function OrganizationPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Organization Name</label>
-              <Input 
-                value={editing ? editedValues.name : organization.name}
+              <Input
+                value={editedValues.name}
                 onChange={(e) => setEditedValues({ ...editedValues, name: e.target.value })}
                 disabled={!editing}
               />
@@ -101,23 +113,37 @@ export default function OrganizationPage() {
             
             <div className="space-y-2">
               <label className="text-sm font-medium">Subscription Tier</label>
-              <Input 
-                value={organization.subscription} 
-                disabled 
-              />
+              <Select
+                value={editedValues.subscription}
+                onValueChange={(value: 'basic' | 'pro' | 'enterprise') =>
+                  setEditedValues({ ...editedValues, subscription: value })
+                }
+                disabled={!editing}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select subscription" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="basic">Basic</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Maximum Robots (Max: 20)</label>
-              <Input 
+              <Input
                 type="number"
                 min={1}
                 max={20}
-                value={editing ? editedValues.max_robots : organization.max_robots}
-                onChange={(e) => setEditedValues({ 
-                  ...editedValues, 
-                  max_robots: Math.min(20, parseInt(e.target.value) || 0)
-                })}
+                value={editedValues.max_robots}
+                onChange={(e) =>
+                  setEditedValues({
+                    ...editedValues,
+                    max_robots: Math.min(20, parseInt(e.target.value) || 0)
+                  })
+                }
                 disabled={!editing}
               />
             </div>
@@ -130,9 +156,17 @@ export default function OrganizationPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {organization.settings.api_keys.map((key, index) => (
+              {editedKeys.map((key, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <Input value={key} disabled />
+                  <Input
+                    value={key}
+                    onChange={(e) => {
+                      const newKeys = [...editedKeys];
+                      newKeys[index] = e.target.value;
+                      setEditedKeys(newKeys);
+                    }}
+                    disabled={!editing}
+                  />
                   <Button variant="destructive" size="sm">
                     Revoke
                   </Button>
@@ -148,9 +182,17 @@ export default function OrganizationPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {organization.settings.allowed_features.map((feature, index) => (
+              {editedFeatures.map((feature, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <span className="text-sm">{feature}</span>
+                  <Input
+                    value={feature}
+                    onChange={(e) => {
+                      const newFeatures = [...editedFeatures];
+                      newFeatures[index] = e.target.value;
+                      setEditedFeatures(newFeatures);
+                    }}
+                    disabled={!editing}
+                  />
                 </div>
               ))}
             </div>

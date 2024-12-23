@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3001/api';
 
 export interface Organization {
   id: string;
@@ -69,7 +69,11 @@ class OrganizationService {
 
   async updateOrganization(
     id: string,
-    data: { name?: string; max_robots?: number }
+    data: {
+      name?: string;
+      max_robots?: number;
+      subscription?: 'basic' | 'pro' | 'enterprise';
+    }
   ): Promise<Organization> {
     try {
       const response = await fetch(`${API_URL}/organizations/${id}`, {
@@ -77,6 +81,10 @@ class OrganizationService {
         headers: this.getHeaders(),
         body: JSON.stringify(data),
       });
+
+      if (response.status === 404) {
+        throw new Error('Organization not found');
+      }
 
       if (!response.ok) {
         const errorData = await response.json();
