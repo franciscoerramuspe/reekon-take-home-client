@@ -92,7 +92,7 @@ export default function DashboardLayout({
                   <NavLink href="/dashboard/errors/analytics" icon={BarChart3}>
                     Error Analytics
                   </NavLink>
-                  <NavLink href="/dashboard/errors/logs" icon={AlertCircle}>
+                  <NavLink href="/dashboard/errors/log" icon={AlertCircle}>
                     Error Logs
                   </NavLink>
                   {user?.role === 'admin' && (

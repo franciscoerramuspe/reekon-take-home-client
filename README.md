@@ -1,8 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# REEKON Robot Management Platform
+
+A web-based platform for managing REEKON Robot Assistants, allowing customers to remotely command and monitor their robots.
+
+## Features
+
+- **Account Management**
+  - User authentication
+  - Organization-based access control
+  - Subscription management (Basic/Pro/Enterprise)
+
+- **Dashboard**
+  - Interactive map showing real-time robot locations
+  - Robot status monitoring
+  - Quick actions for robot management
+
+- **Robot Management**
+  - Create and delete robots
+  - Monitor battery levels and status
+  - View detailed robot information
+  - Real-time location tracking
+
+- **Job Management**
+  - Create and assign jobs to robots
+  - Track job progress and status
+  - View job history and analytics
+
+- **Error Monitoring**
+  - Real-time error tracking
+  - Error analytics and trends
+  - Detailed error logs with filtering
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 with React
+- **UI Components**: Shadcn/ui
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **Maps**: Leaflet
+- **State Management**: React Hooks
 
 ## Getting Started
 
-First, run the development server:
+1. **Installation**
 
 ```bash
 npm run dev
