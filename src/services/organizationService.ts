@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://take-home-reekon.vercel.app/api';
 
 export interface Organization {
   id: string;
