@@ -1,10 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Logo } from "@/components/logo"
 import { AuthForm, AuthInput, AuthButton } from "@/components/auth-form"
+import { organizationService } from '@/services/organizationService'
+import { Organization } from '@/types/organization'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 
 
@@ -16,10 +19,26 @@ export default function SignUp() {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    organizationId: '9c147b50-f35f-443d-ad83-c10fee7645ec'
+    organizationId: ''
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [organizations, setOrganizations] = useState<Organization[]>([])
+
+  useEffect(() => {
+    const fetchOrganizations = async () => {
+      try {
+        console.log('Fetching organizations...');
+        const orgs = await organizationService.listOrganizations();
+        console.log('Organizations received:', orgs);
+        setOrganizations(orgs);
+      } catch (error) {
+        console.error('Failed to fetch organizations:', error);
+      }
+    };
+    
+    fetchOrganizations();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -112,6 +131,31 @@ export default function SignUp() {
             required
             disabled={isLoading}
           />
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Organization</label>
+            <Select
+              value={formData.organizationId}
+              onValueChange={(value) => setFormData({ ...formData, organizationId: value })}
+              disabled={isLoading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Organization" />
+              </SelectTrigger>
+              <SelectContent>
+                {organizations.map((org) => (
+                  <SelectItem key={org.id} value={org.id}>
+                    {org.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="text-sm text-center text-neutral-400">
+            Can't find your organization?{" "}
+            <Link href="/create-organization" className="text-[#FFD700] hover:text-[#FFD700]/90">
+              Create one
+            </Link>
+          </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
           <AuthButton type="submit" isLoading={isLoading}>
             Sign Up
