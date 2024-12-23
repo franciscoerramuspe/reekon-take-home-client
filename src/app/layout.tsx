@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import "./globals.css";
 import { ToastProvider } from "@/providers/ToastProvider"
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const geistSans = GeistSans
 const geistMono = GeistMono
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <ToastProvider />
       </body>
     </html>

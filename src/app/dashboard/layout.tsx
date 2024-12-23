@@ -4,10 +4,11 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Logo } from "@/components/logo";
-import { LogOut, BarChart2, Briefcase, BarChart3, AlertCircle, Menu, Home } from 'lucide-react';
+import { LogOut, BarChart2, Briefcase, BarChart3, AlertCircle, Menu, Home, Settings } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function DashboardLayout({
   children,
@@ -16,6 +17,8 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useAuth();
+  console.log('Current user:', user);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -92,6 +95,11 @@ export default function DashboardLayout({
                   <NavLink href="/dashboard/errors/logs" icon={AlertCircle}>
                     Error Logs
                   </NavLink>
+                  {user?.role === 'admin' && (
+                    <NavLink href="/dashboard/organization" icon={Settings}>
+                      Organization
+                    </NavLink>
+                  )}
                 </nav>
               </div>
 
